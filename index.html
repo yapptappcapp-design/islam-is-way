@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Islam Is Way · Hajj Guide</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* ... (rest of CSS unchanged) ... */
+        :root {
+            --gold: #c9a84c;
+            --gold-light: #e0c878;
+            --gold-dark: #8b6914;
+            --teal: #1a6b5a;
+            --teal-dark: #0f3d33;
+            --teal-deeper: #0a2822;
+            --cream: #fdf8f0;
+            --text-dark: #2c1810;
+            --text-medium: #5a3e2b;
+            --text-light: #8b7355;
+            --white: #fffef9;
+            --border: #d4c5a9;
+            --shadow-sm: 0 2px 8px rgba(0,0,0,0.06);
+            --shadow-md: 0 8px 32px rgba(0,0,0,0.08);
+            --radius: 16px;
+            --radius-lg: 24px;
+            --transition: 0.3s ease;
+        }
+        * { margin:0; padding:0; box-sizing:border-box; }
+        body {
+            font-family: 'Georgia', 'Times New Roman', 'Traditional Arabic', serif;
+            background: var(--teal-deeper);
+            background-image:
+                radial-gradient(ellipse at 50% 0%, rgba(201,168,76,0.08) 0%, transparent 60%),
+                radial-gradient(ellipse at 80% 100%, rgba(26,107,90,0.3) 0%, transparent 50%);
+            color: var(--text-dark);
+            min-height: 100vh;
+            line-height: 1.7;
+            position: relative;
+        }
+        body::before {
+            content: '';
+            position: fixed;
+            top:0;left:0;right:0;bottom:0;
+            background-image:
+                repeating-linear-gradient(45deg, transparent, transparent 2px, rgba(201,168,76,0.03) 2px, rgba(201,168,76,0.03) 4px),
+                repeating-linear-gradient(-45deg, transparent, transparent 2px, rgba(201,168,76,0.03) 2px, rgba(201,168,76,0.03) 4px);
+            pointer-events:none; z-index:0;
+        }
+        .app-container { position:relative; z-index:1; max-width:800px; margin:0 auto; padding:0 16px 40px; }
+        .header { text-align:center; padding:32px 20px 20px; }
+        .header-decoration { display:flex; align-items:center; justify-content:center; gap:12px; margin-bottom:6px; }
+        .header-decoration .line { width:40px; height:1.5px; background:var(--gold); opacity:0.6; }
+        .header-decoration .star { color:var(--gold); font-size:1.2rem; animation:starGlow 3s ease-in-out infinite; }
+        @keyframes starGlow { 0%,100%{opacity:0.5;transform:scale(1);} 50%{opacity:1;transform:scale(1.25);} }
+        .header h1 { font-size:2.2rem; font-weight:400; color:var(--gold-light); letter-spacing:0.04em; }
+        .header .subtitle { font-size:0.9rem; color:rgba(224,200,120,0.7); letter-spacing:0.06em; text-transform:uppercase; margin-top:4px; }
+        .bismillah { font-family:'Traditional Arabic','Georgia',serif; font-size:2rem; color:var(--gold); opacity:0.8; margin-bottom:4px; }
+
+        .intro {
+            background: linear-gradient(135deg, rgba(255,254,249,0.95) 0%, rgba(250,243,227,0.95) 100%);
+            border-radius: var(--radius); padding:24px; margin-bottom:20px;
+            border:1px solid rgba(201,168,76,0.3); box-shadow:var(--shadow-md);
+            text-align: center;
+        }
+        .intro p { color: var(--text-medium); font-size: 0.95rem; }
+        .verse {
+            font-style: italic; color: var(--gold-dark); margin-top: 10px;
+            font-size: 0.9rem; opacity: 0.8;
+        }
+
+        .accordion {
+            background: linear-gradient(135deg, rgba(255,254,249,0.97) 0%, rgba(250,243,227,0.97) 100%);
+            border-radius: var(--radius-lg); padding: 8px 0;
+            border:1px solid rgba(201,168,76,0.3); box-shadow:var(--shadow-md);
+            position:relative; overflow:hidden;
+        }
+        .accordion::after { content:''; position:absolute; top:0;left:0;right:0; height:3px; background: linear-gradient(90deg, transparent, var(--gold), transparent); opacity:0.6; }
+        .step {
+            border-bottom: 1px solid rgba(212,197,169,0.4);
+        }
+        .step:last-child { border-bottom: none; }
+        .step-header {
+            display: flex;
+            align-items: center;
+            padding: 16px 20px;
+            cursor: pointer;
+            transition: background var(--transition);
+            gap: 12px;
+        }
+        .step-header:hover { background: rgba(201,168,76,0.05); }
+        .step-number {
+            width: 36px; height: 36px;
+            border-radius: 50%;
+            background: var(--gold);
+            color: var(--white);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 1rem;
+            flex-shrink: 0;
+        }
+        .step-title {
+            flex: 1;
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: var(--text-dark);
+            letter-spacing: 0.02em;
+        }
+        .step-arabic {
+            font-size: 0.8rem;
+            color: var(--text-light);
+            font-family: 'Traditional Arabic','Georgia',serif;
+            letter-spacing: 0.02em;
+            margin-left: 8px;
+        }
+        .step-icon {
+            color: var(--teal);
+            font-size: 1rem;
+            transition: transform var(--transition);
+        }
+        .step.open .step-icon { transform: rotate(180deg); }
+        .step-body {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.4s ease, padding 0.4s ease;
+            padding: 0 20px;
+        }
+        .step.open .step-body {
+            max-height: 2000px;
+            padding: 0 20px 16px;
+        }
+        .step-content {
+            font-size: 0.92rem;
+            color: var(--text-medium);
+            line-height: 1.8;
+        }
+        .step-content ul { padding-left: 20px; }
+        .step-content li { margin-bottom: 6px; }
+        .step-content strong { color: var(--text-dark); }
+        .highlight {
+            background: rgba(201,168,76,0.1);
+            border-left: 3px solid var(--gold);
+            padding: 10px 14px;
+            border-radius: 0 8px 8px 0;
+            margin: 10px 0;
+            font-size: 0.85rem;
+        }
+        .dua {
+            font-family: 'Traditional Arabic', 'Georgia', serif;
+            font-size: 1.2rem;
+            color: var(--teal);
+            direction: rtl;
+            text-align: right;
+            margin: 8px 0;
+        }
+
+        .footer { text-align:center; padding:24px 20px; color:rgba(224,200,120,0.4); font-size:0.75rem; letter-spacing:0.04em; }
+        .footer i { margin:0 3px; }
+
+        @media (max-width:500px) {
+            .header h1 { font-size:1.8rem; }
+            .step-header { padding: 12px 14px; }
+            .step-title { font-size: 1rem; }
+        }
+    </style>
+</head>
+<body>
+    <div class="app-container">
+        <header class="header">
+            <div class="bismillah">بِسْمِ اللَّهِ الرَّحْمَنِ الرَّحِيم</div>
+            <div class="header-decoration">
+                <span class="line"></span>
+                <i class="fas fa-kaaba star"></i>
+                <span class="line"></span>
+            </div>
+            <h1>Islam Is Way</h1>
+            <p class="subtitle">Hajj: A Step-by-Step Guide</p>
+        </header>
+
+        <div class="intro">
+            <p><i class="fas fa-info-circle"></i> Hajj is the fifth pillar of Islam, obligatory once in a lifetime for those who are physically and financially able. This guide covers the essential rituals according to the Qur'an and Sunnah.</p>
+            <p class="verse">وَأَذِّن فِى ٱلنَّاسِ بِٱلْحَجِّ يَأْتُوكَ رِجَالًۭا وَعَلَىٰ كُلِّ ضَامِرٍۢ يَأْتِينَ مِن كُلِّ فَجٍّ عَمِيقٍۢ</p>
+            <p class="verse">"And proclaim to the people the Hajj; they will come to you on foot and on every lean camel; they will come from every distant pass." (22:27)</p>
+        </div>
+
+        <div class="accordion" id="hajjAccordion">
+            <!-- Step 1 -->
+            <div class="step">
+                <div class="step-header" onclick="toggleStep(this)">
+                    <div class="step-number">1</div>
+                    <div class="step-title">Ihram <span class="step-arabic">الإحرام</span></div>
+                    <i class="fas fa-chevron-down step-icon"></i>
+                </div>
+                <div class="step-body">
+                    <div class="step-content">
+                        <p><strong>Before crossing the Miqat</strong>, enter the state of Ihram:</p>
+                        <ul>
+                            <li><strong>Purification:</strong> Perform ghusl (ritual bath), clip nails, remove unwanted hair.</li>
+                            <li><strong>Clothing:</strong> Men wear two white unstitched sheets (izar & rida). Women wear modest, loose clothing (no niqab or gloves).</li>
+                            <li><strong>Intention & Talbiyah:</strong> Make the intention for Hajj (e.g., Hajj Tamattu, Qiran, or Ifrad) and recite the Talbiyah frequently:
+                                <div class="dua">لَبَّيْكَ ٱللَّهُمَّ لَبَّيْكَ، لَبَّيْكَ لَا شَرِيكَ لَكَ لَبَّيْكَ، إِنَّ ٱلْحَمْدَ وَٱلنِّعْمَةَ لَكَ وَٱلْمُلْكَ، لَا شَرِيكَ لَكَ</div>
+                                <em>"Here I am, O Allah, here I am. Here I am, You have no partner, here I am. Verily all praise, grace and dominion are Yours. You have no partner."</em>
+                            </li>
+                        </ul>
+                        <div class="highlight">
+                            <strong>Prohibitions during Ihram:</strong> No cutting hair/nails, using perfume, hunting, sexual relations, or arguments. Be extra mindful of your behaviour.
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Step 2 -->
+            <div class="step">
+                <div class="step-header" onclick="toggleStep(this)">
+                    <div class="step-number">2</div>
+                    <div class="step-title">Tawaf al-Qudum <span class="step-arabic">طواف القدوم</span></div>
+                    <i class="fas fa-chevron-down step-icon"></i>
+                </div>
+                <div class="step-body">
+                    <div class="step-content">
+                        <p><strong>Upon arriving in Makkah</strong>, perform the Tawaf of arrival (for non-residents):</p>
+                        <ul>
+                            <li>Enter the Masjid al-Haram with your right foot, reciting the du'a for entering a mosque.</li>
+                            <li>Begin Tawaf from the Black Stone (Hajr al-Aswad), making takbir and touching/kissing it if possible, or simply pointing.</li>
+                            <li>Circle the Kaaba <strong>7 times</strong> anti-clockwise. Men uncover the right shoulder (Idtiba) and walk briskly (Raml) for the first 3 circuits.</li>
+                            <li>Between the Yemeni Corner and the Black Stone, recite: <em>"Rabbana atina fid-dunya hasanatan wa fil-akhirati hasanatan wa qina adhab an-nar."</em></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Step 3 -->
+            <div class="step">
+                <div class="step-header" onclick="toggleStep(this)">
+                    <div class="step-number">3</div>
+                    <div class="step-title">Sa'i between Safa & Marwah <span class="step-arabic">السعي</span></div>
+                    <i class="fas fa-chevron-down step-icon"></i>
+                </div>
+                <div class="step-body">
+                    <div class="step-content">
+                        <p>After Tawaf, proceed to perform Sa'i (walking between the hills of Safa and Marwah):</p>
+                        <ul>
+                            <li>Start at Safa, face the Kaaba, make du'a.</li>
+                            <li>Walk towards Marwah (one lap). <strong>Men run</strong> between the green markers.</li>
+                            <li>Continue until you complete <strong>7 laps</strong> (Safa to Marwah is one, Marwah to Safa is another).</li>
+                            <li>Make du'a throughout; there are no specific prescribed supplications.</li>
+                        </ul>
+                        <div class="highlight">
+                            <strong>For Hajj Tamattu:</strong> After Sa'i, men should shave or trim their hair, and exit Ihram. You will re-enter Ihram on the 8th Dhul Hijjah.
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Step 4: 8th Dhul Hijjah -->
+            <div class="step">
+                <div class="step-header" onclick="toggleStep(this)">
+                    <div class="step-number">4</div>
+                    <div class="step-title">Day of Tarwiyah (8th Dhul Hijjah) <span class="step-arabic">يوم التروية</span></div>
+                    <i class="fas fa-chevron-down step-icon"></i>
+                </div>
+                <div class="step-body">
+                    <div class="step-content">
+                        <p>Proceed to <strong>Mina</strong> before Dhuhr prayer:</p>
+                        <ul>
+                            <li>Enter Ihram if you had exited (for Tamattu pilgrims).</li>
+                            <li>Spend the night in Mina, praying Dhuhr, Asr, Maghrib, Isha and Fajr, shortening Dhuhr and Asr (2 rak'ahs each) but not combining.</li>
+                            <li>This is a Sunnah day; use it for worship and preparation.</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Step 5: Day of Arafat -->
+            <div class="step">
+                <div class="step-header" onclick="toggleStep(this)">
+                    <div class="step-number">5</div>
+                    <div class="step-title">Day of Arafat (9th Dhul Hijjah) <span class="step-arabic">يوم عرفة</span></div>
+                    <i class="fas fa-chevron-down step-icon"></i>
+                </div>
+                <div class="step-body">
+                    <div class="step-content">
+                        <p>The most important day of Hajj. After sunrise, head to the plain of <strong>Arafat</strong>:</p>
+                        <ul>
+                            <li>Combine and shorten Dhuhr and Asr prayers at Dhuhr time.</li>
+                            <li>Stand in sincere du'a, repentance, and remembrance of Allah until sunset. The Prophet (ﷺ) said: <em>"Hajj is Arafat."</em></li>
+                            <li>Face the Qiblah, raise your hands, and pour your heart out. No specific du'a is required.</li>
+                            <li><strong>Do not leave before sunset.</strong></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Step 6: Muzdalifah -->
+            <div class="step">
+                <div class="step-header" onclick="toggleStep(this)">
+                    <div class="step-number">6</div>
+                    <div class="step-title">Muzdalifah (Night of 10th) <span class="step-arabic">المزدلفة</span></div>
+                    <i class="fas fa-chevron-down step-icon"></i>
+                </div>
+                <div class="step-body">
+                    <div class="step-content">
+                        <p>After sunset, move calmly to <strong>Muzdalifah</strong>:</p>
+                        <ul>
+                            <li>Combine Maghrib and Isha prayers (Maghrib 3 rak'ahs, Isha shortened to 2).</li>
+                            <li>Spend the night under the open sky. Collect pebbles for Rami (7 for the first day, 21 for each of the next days).</li>
+                            <li>Perform Fajr prayer and make du'a until just before sunrise.</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Step 7: 10th Dhul Hijjah -->
+            <div class="step">
+                <div class="step-header" onclick="toggleStep(this)">
+                    <div class="step-number">7</div>
+                    <div class="step-title">Rami al-Jamarat & Sacrifice (10th Dhul Hijjah) <span class="step-arabic">رمي الجمرات</span></div>
+                    <i class="fas fa-chevron-down step-icon"></i>
+                </div>
+                <div class="step-body">
+                    <div class="step-content">
+                        <p>Proceed to Mina after sunrise for the busiest day:</p>
+                        <ul>
+                            <li><strong>Rami:</strong> Throw 7 pebbles at Jamarat al-Aqaba (the largest pillar), saying "Allahu Akbar" with each throw.</li>
+                            <li><strong>Sacrifice (Hady):</strong> Offer an animal (sheep, goat, or share in a cow/camel). Eat from it and distribute to the poor.</li>
+                            <li><strong>Halq/Taqsir:</strong> Men shave their heads (preferred) or trim; women cut a fingertip's length of hair.</li>
+                            <li>After this, you exit the state of Ihram partially (first release), allowing normal clothing but marital relations remain prohibited until Tawaf al-Ifadah.</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Step 8: Tawaf al-Ifadah -->
+            <div class="step">
+                <div class="step-header" onclick="toggleStep(this)">
+                    <div class="step-number">8</div>
+                    <div class="step-title">Tawaf al-Ifadah <span class="step-arabic">طواف الإفاضة</span></div>
+                    <i class="fas fa-chevron-down step-icon"></i>
+                </div>
+                <div class="step-body">
+                    <div class="step-content">
+                        <p>Return to Makkah to perform <strong>Tawaf al-Ifadah</strong> (the essential Tawaf of Hajj):</p>
+                        <ul>
+                            <li>Perform Tawaf (7 circuits) as before, but without Idtiba and Raml for men (unless performing Tawaf al-Qudum for the first time).</li>
+                            <li>After this Tawaf, all restrictions of Ihram are lifted, including marital relations.</li>
+                            <li>If you haven't performed Sa'i after Tawaf al-Qudum, you must do Sa'i now.</li>
+                        </ul>
+                        <div class="highlight">
+                            <strong>Important:</strong> Tawaf al-Ifadah is a pillar of Hajj and cannot be omitted. It can be done on the 10th, 11th, or 12th, but earlier is recommended.
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Step 9: Days of Tashreeq -->
+            <div class="step">
+                <div class="step-header" onclick="toggleStep(this)">
+                    <div class="step-number">9</div>
+                    <div class="step-title">Days of Tashreeq (11th-13th) <span class="step-arabic">أيام التشريق</span></div>
+                    <i class="fas fa-chevron-down step-icon"></i>
+                </div>
+                <div class="step-body">
+                    <div class="step-content">
+                        <p>Spend the nights of the 11th and 12th (and optionally 13th) in Mina and perform Rami each day:</p>
+                        <ul>
+                            <li>After Dhuhr, stone all three Jamarat (small, medium, large) with 7 pebbles each.</li>
+                            <li>Start with Jamarat al-Ula (smallest), make du'a; then al-Wusta, make du'a; finally al-Aqaba (do not stop after this one).</li>
+                            <li>If you stay for the 13th, repeat the stoning after Dhuhr.</li>
+                            <li>You may leave Mina on the 12th before sunset if you wish, but staying the 13th is Sunnah.</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Step 10: Farewell Tawaf -->
+            <div class="step">
+                <div class="step-header" onclick="toggleStep(this)">
+                    <div class="step-number">10</div>
+                    <div class="step-title">Tawaf al-Wada (Farewell) <span class="step-arabic">طواف الوداع</span></div>
+                    <i class="fas fa-chevron-down step-icon"></i>
+                </div>
+                <div class="step-body">
+                    <div class="step-content">
+                        <p>Before leaving Makkah, perform the <strong>Farewell Tawaf</strong>:</p>
+                        <ul>
+                            <li>Circle the Kaaba 7 times as a final act of worship.</li>
+                            <li>No Sa'i or Raml required. Make du'a for acceptance and safe return.</li>
+                            <li>This is the last thing you do before departing; women in menses are exempt.</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <footer class="footer">
+            <p>اللهم تقبل منا إنك أنت السميع العليم</p>
+            <p style="margin-top:4px;">O Allah, accept from us. You are the All-Hearing, the All-Knowing.</p>
+        </footer>
+    </div>
+
+    <script>
+        function toggleStep(header) {
+            const step = header.parentElement;
+            step.classList.toggle('open');
+        }
+        // Open first step by default
+        document.addEventListener('DOMContentLoaded', function() {
+            const firstStep = document.querySelector('.step');
+            if (firstStep) firstStep.classList.add('open');
+        });
+    </script>
+</body>
+</html>
